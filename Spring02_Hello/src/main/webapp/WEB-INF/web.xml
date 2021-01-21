@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 스프링에서 제공해주는 appServlet이라는 이름의 DispatcherServlet-->
+	<!-- jsp에서 class DispatcherServlet extends HttpServlet{}로 직접 만들어본적이 있다.
+		다만 spring에서는 FrameworkServlet에서 extends 받은 DispatcherServlet이다.  
+	-->
+	<!-- 여기서 servelt-context.xml은 스프링자바기초에서 배웠던 init.xml과 비슷하다고 보면 된다. -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- 
+		[어떤 요청이 왔을 때 DispatcherServlet 이 요청을 처리하게 할것인지 설정]
+		*.do는 .do 로 끝나는 모든 요청에 대해서(*.do에서 .뒷부분의 명칭은 내가 맘대로 지정할 수 있다.)
+		appServlet(DispatcherServlet) 이 동작하도록 설정하는 것이다. 
+		ex) /home.do, /fortune.do, /users/loginform.do, /cafe/list.do 
+		이런 모든 요청이 들어왔을 때 appServlet이 다 처리하겠다는 의미이다. 
+	  -->
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 최상위 경로 요청이 왔을 때 home.do 요청이 되도록 설정한다. -->
+	<!-- 최상위 경로는 top-level package설정시 입력했던  com.gura.spring01중 spring01을 의미한다.  -->
+	<welcome-file-list>
+		<welcome-file>home.do</welcome-file>
+	</welcome-file-list>
+
+</web-app>
