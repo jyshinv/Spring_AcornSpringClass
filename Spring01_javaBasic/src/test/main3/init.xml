@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Car 객체를 생성해서 관리되게 하려면 어떻게 해야할까? -->
+	<!-- 아래의 코드는 e1=new Engine()와 같다. -->
+	<bean id="e1" class="test.auto.Engine"/>
+	<!-- 아래의 코드는 car1=new Car(e1)과 같다. -->
+	<!-- name속성의 속성값 "engine"은 생성자의 매개변수명을 의미한다.  -->
+	<bean class="test.auto.Car">
+		<constructor-arg name="engine" ref="e1"/>
+	</bean>
+	<!-- Sedan객체를 생성해서 관리되게 하려면 어떻게 해야할까? -->
+	<!--
+		아래 코드는
+		sedan1=new Sedan();
+		sedan1.setName("소나타");
+		sedan1.setWeight(1000);
+		sedan1.setEngine(e1); 
+		와 같다.
+		
+		-constrauctor-arg 태그는 생성자의 매개변수에 값을 전달할 때 사용
+		-property태그는 메소드의 매개변수에(set메소드) 값을 전달할 때 사용한다. 
+		-속성 value는 숫자나 문자를 전달할 때 사용하고
+		-속성 ref는 이미 만들어진 참조값을 전달하는데 사용한다.
+		
+		아래 코드에서 name속성의 속성값은 각 메소드의 매개변수명을 의미한다.  
+	 -->	
+	<bean id="sedan1" class="test.auto.Sedan">
+		<property name="name" value="소나타"/>
+		<property name="weight" value="1000"/>
+		<property name="engine" ref="e1"/>
+	</bean>
+	
+</beans>
