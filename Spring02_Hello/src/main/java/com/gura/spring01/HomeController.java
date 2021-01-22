@@ -9,7 +9,8 @@ public class HomeController {
 	@RequestMapping("/home.do") //.do는 생략가능
 	public String home() {
 		
-		//WEB-INF/views/home.jsp 페이지로 forward 이동해서 응답하기 
+		//WEB-INF/views/home.jsp 를 리턴
+		//즉, home.jsp로 forward 이동해서 응답하기
 		return "home";
 	}
 	

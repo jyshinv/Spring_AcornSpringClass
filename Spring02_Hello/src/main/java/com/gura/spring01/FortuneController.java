@@ -37,7 +37,7 @@ public class FortuneController {
 		
 		그럼으로 해당 위치를 찾아서 jsp 파일을 만들어서 응답하면 된다. 
 		*/
-		// views폴더 안 fortune.jsp로 foward요청
+		// views폴더 안 fortune.jsp로 foward이동해서 응답
 		return "fortune";
 		
 		//퀴즈) 만약 return "test/fortune"를 하게 되면 views에 test폴더를 만들고 fortune.jsp를 만들어야한다.
