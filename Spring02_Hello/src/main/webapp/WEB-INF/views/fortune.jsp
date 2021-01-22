@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>오늘의 운세 페이지</h1>
+<!-- requestScope는 생략가능 -->
 <p>오늘의 운세 : ${requestScope.fortuneToday }</p>
 </body>
 </html>

@@ -18,6 +18,7 @@
   </build>
   <!-- 의존 라이브러리를 dependencies의 자식 요소로 작성을 하면 자동으로 사용할 준비가 된다. -->
   <dependencies>
+  	<!-- 스프링 기본 라이브러리 -->
   	<dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-context</artifactId>
