@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/test/play.html</title>
+</head>
+<body>
+<h1>노는 페이지 입니다.</h1>
+<p>신나게 놀아 보아요</p>
+<!-- 아래 요청은 모두 dispatcherServlet을 거침 -->
+<!-- 상대경로  -->
+<a href="../home.do">인덱스로 가기</a></br>
+<!-- html파일은 context경로를 하드코딩 해주어야함 -->
+<a href="/spring03/home.do">인덱스로 가기</a></br>
+<!-- 절대경로로 최상위경로 요청 web.xml에 welcome file list로 home.do를 설정해놨기 때문에 최상위경로를 요청하면 home.jsp로 간다. -->
+<a href="/spring03/">인덱스로 가기</a>
+
+</body>
+</html>
