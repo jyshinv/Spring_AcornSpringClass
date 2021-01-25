@@ -46,7 +46,6 @@
 	</servlet-mapping>
 	
 	<!-- 최상위 경로 요청이 왔을 때 home.do 요청이 되도록 설정한다. -->
-	<!-- 최상위 경로는 프로젝트 만들 때 top-level package설정 시 입력했던  com.gura.spring01중 spring01을 의미한다.  -->
 	<welcome-file-list>
 		<welcome-file>home.do</welcome-file>
 	</welcome-file-list>
