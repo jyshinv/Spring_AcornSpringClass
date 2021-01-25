@@ -43,11 +43,11 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void insert(MemberDto dto) {
 		/*
-		Mapper.xml 문서의 namespace => member
-		sql의 id => insert
-		parameterType => MemberDto 
-		*/
-		session.insert("member.insert");
+		 *  Mapper.xml 문서의 namespace => member
+		 *  sql 의 id => insert
+		 *  parameterType => MemberDto
+		 */
+		session.insert("member.insert", dto);
 	}
 
 	@Override
@@ -84,5 +84,6 @@ public class MemberDaoImpl implements MemberDao{
 		MemberDto dto=session.selectOne("member.getData",num);
 		return dto;
 	}
+	
 
 }

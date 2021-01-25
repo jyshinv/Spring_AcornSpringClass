@@ -2,8 +2,11 @@ package com.gura.spring04.member.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,5 +33,58 @@ public class MemberController {
 		mView.addObject("member/list");
 		
 		return mView;
+	}
+	
+	@RequestMapping("/member/insertform")
+	public String insertform() {
+		return "member/insertform";
+	}
+	
+	@RequestMapping("/member/insert")
+	public String insert(HttpServletRequest request) {
+		String name=request.getParameter("name");
+		String addr=request.getParameter("addr");
+		
+		MemberDto dto=new MemberDto();
+		dto.setName(name);
+		dto.setAddr(addr);
+		
+		//1.회원을 추가한다.
+		dao.insert(dto);
+		
+		return "member/insert";
+	}
+	
+	@RequestMapping("/member/deleteform")
+	public String delete(HttpServletRequest request) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		//num번인 회원을 삭제한다.
+		dao.delete(num);
+	
+		
+		return "redirect:/member/list.do";
+	}
+	
+	//list.jsp(num을 넘김)--->updateform.do(num을 받아서 num과,name과 addr을 넘김) --> update.jsp(num,name,addr을 받아서 삭제처리) --> update.do(결과를 출력)
+	@RequestMapping("/member/updateform")
+	public ModelAndView updateform(ModelAndView mView, HttpServletRequest request) {		
+		int num = Integer.parseInt(request.getParameter("num"));
+		mView.addObject("num", num);
+		mView.addObject("member/update");
+		return mView;
+	}
+	
+	@RequestMapping("/member/update")
+	public String update(HttpServletRequest request) {		
+		int num = Integer.parseInt(request.getParameter("num"));
+		String name=request.getParameter("name");
+		String addr=request.getParameter("addr");
+		MemberDto dto=new MemberDto();
+		dto.setNum(num);
+		dto.setName(name);
+		dto.setAddr(addr);
+		dao.update(dto);
+		
+		return "member/update";
 	}
 }

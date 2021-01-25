@@ -27,8 +27,8 @@
 					<td>${tmp.num }</td>
 					<td>${tmp.name }</td>
 					<td>${tmp.addr }</td>
-					<td><a href="updateform.do">수정</a></td>
-					<td><a href="deleteform.do">삭제</a></td>
+					<td><a href="updateform.do?num=${tmp.num }">수정</a></td>
+					<td><a href="deleteform.do?num=${tmp.num }">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
