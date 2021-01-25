@@ -47,6 +47,7 @@
 		SqlSession 인터페이스를 구현한 
 		SqlSessionTemplate(SqlSession) 객체 
 		Dao 가 의존하는 객체 
+		class SqlSessionTemplate implements SqlSession~~ 
 	-->
 	<beans:bean class="org.mybatis.spring.SqlSessionTemplate">
 		<beans:constructor-arg name="sqlSessionFactory" 
