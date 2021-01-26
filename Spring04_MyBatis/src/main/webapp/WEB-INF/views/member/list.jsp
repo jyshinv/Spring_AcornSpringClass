@@ -27,12 +27,20 @@
 					<td>${tmp.num }</td>
 					<td>${tmp.name }</td>
 					<td>${tmp.addr }</td>
-					<td><a href="updateform.do">수정</a></td>
-					<td><a href="deleteform.do">삭제</a></td>
+					<td><a href="updateform.do?num=${tmp.num}">수정</a></td>
+					<td><a href="javascript:deleteConfirm(${tmp.num })">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 </div>
+<script>
+	function deleteConfirm(num){
+		let isDelete=confirm(num+" 번 회원을 삭제 하시겠습니까?");
+		if(isDelete){
+			location.href="delete.do?num="+num;
+		}
+	}
+</script>
 </body>
 </html>

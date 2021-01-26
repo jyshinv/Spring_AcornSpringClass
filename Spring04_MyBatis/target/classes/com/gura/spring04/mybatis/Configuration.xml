@@ -4,6 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+	<!-- Mapper xml에서 자주 사용하는 type에 별칭을 부여할 수 있다. -->
+	<!-- 지정한 mapper에서 memberDto별칭을 사용하기 때문에 순서는 반드시 typeAliases태그가 먼저 와야한다. -->
+	<typeAliases>
+		<typeAlias type="com.gura.spring04.member.dto.MemberDto" alias="memberDto"/>
+	</typeAliases>
 	<!-- 사용할  Mapper xml이  어디에 있는지 명시해야한다. -->
 	<mappers>
 		<mapper resource="com/gura/spring04/mybatis/MemberMapper.xml"/>

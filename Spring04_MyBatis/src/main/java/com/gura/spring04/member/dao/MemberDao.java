@@ -14,7 +14,7 @@ public interface MemberDao {
 	//회원정보를 삭제하는 메소드
 	public void delete(int num);
 	//회원 한명의 정보를 리턴하는 메소드
-	public MemberDto getDate(int num);
+	public MemberDto getData(int num);
 	
 	
 }

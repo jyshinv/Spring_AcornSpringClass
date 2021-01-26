@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.gura.spring04.exception.DBFailException;
 import com.gura.spring04.member.dto.MemberDto;
 
 //component scan을 통해서 bean이 되도록 어노테이션을 붙여준다. dao엔 보통 repository 어노테이션을 붙여준다.
@@ -21,6 +22,7 @@ public class MemberDaoImpl implements MemberDao{
 		SqlSession객체는 servlet-content.xml에서 bean태그를 통해 직접 bean으로 만들어 관리하고 있고
 		이 객체를 Autowired어노테이션을 통해 주입받아 사용하고 있다. 
 	*/
+	//필드
 	@Autowired
 	private SqlSession session;
 	
@@ -47,7 +49,7 @@ public class MemberDaoImpl implements MemberDao{
 		sql의 id => insert
 		parameterType => MemberDto 
 		*/
-		session.insert("member.insert");
+		session.insert("member.insert",dto);
 	}
 
 	@Override
@@ -68,12 +70,17 @@ public class MemberDaoImpl implements MemberDao{
 		sql의 id => delete
 		parameterType => int  
 		 */
-		session.delete("member.delete",num);
+		//삭제된 row의 개수가 리턴된다. 
+		int count=session.delete("member.delete",num);
+		//만일 삭제가 실패되었다면
+		if(count==0) {
+			throw new DBFailException("삭제 실패 되었습니다.(삭제할 회원정보가 없습니다.)");
+		}
 		
 	}
 
 	@Override
-	public MemberDto getDate(int num) {
+	public MemberDto getData(int num) {
 		/*
 		Mapper.xml 문서의 namespce => member
 		sql의 id=> getData

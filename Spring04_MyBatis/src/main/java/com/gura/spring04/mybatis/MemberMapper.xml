@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 	<!-- resultType이나 parameterType은 MemberDto까지만 친 후 ctrl+space해본다. -->
-	<select id="getList" resultType="com.gura.spring04.member.dto.MemberDto">
+	<select id="getList" resultType="memberDto">
 		SELECT num, name, addr
 		FROM member
 		ORDER BY num ASC
@@ -10,13 +10,13 @@
 
 	<!-- parameterType으로 MemberDto를 지정해주면 알아서 binding해줌 -->
 	<!-- parameterType이 dto라면 정확한 변수명을 적어주어야한다. -->
-	<insert id="insert" parameterType="com.gura.spring04.member.dto.MemberDto">
+	<insert id="insert" parameterType="memberDto">
 		INSERT INTO member
 		(num, name, addr)
 		VALUES(member_seq.NEXTVAL, #{name}, #{addr})
 	</insert>
 	
-	<update id="update" parameterType="com.gura.spring04.member.dto.MemberDto">
+	<update id="update" parameterType="memberDto">
 		Update member
 		SET name=#{name}, addr=#{addr}
 		WHERE num=#{num}
@@ -28,7 +28,7 @@
 		WHERE num=#{num}
 	</delete>
 	
-	<select id="getData" parameterType="int" resultType="com.gura.spring04.member.dto.MemberDto">
+	<select id="getData" parameterType="int" resultType="memberDto">
 		SELECT num, name, addr
 		FROM member
 		WHERE num=#{num}
