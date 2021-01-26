@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	<!-- Congiguration.xml에서 UserDto를 alias로 지정해두었음 -->
+	<update id="updateProfile" parameterType="usersDto">
+		UPDATE users
+		SET profile=#{profile}
+		WHERE id=#{id}
+	</update>
+	<update id="updatePwd" parameterType="usersDto">
+		UPDATE users
+		SET pwd=#{newPwd}
+		WHERE id=#{id} AND pwd=#{pwd}
+	</update>
+	<update id="update" parameterType="usersDto">
+		UPDATE users
+		SET email=#{email}
+		WHERE id=#{id}
+	</update>
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM users
+		WHERE id=#{id}
+	</delete>
+	<!-- 로우 하나가 UsersDto에 자동포장되어 반환된다. 
+	단, dto의 필드명과 select문의 컬럼명이 일치해야한다. 
+	따라서 TO_CHAR()과 같은 함수를 써주고 싶다면 꼭 AS로 명칭을 dto의 필드명과 일치시켜주어야한다.
+	-->
+	<select id="getData" parameterType="String" resultType="usersDto">
+		SELECT pwd,email,profile,
+			TO_CHAR(regdate, 'YY.MM.DD HH24:MI') AS regdate
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<insert id="insert" parameterType="usersDto">
+		INSERT INTO users
+		(id, pwd, email, regdate)
+		VALUES(#{id}, #{pwd}, #{email}, SYSDATE)
+	</insert>
+	<select id="isExist" parameterType="String" resultType="usersDto">
+		SELECT *
+		FROM users
+		WHERE id=#{id}
+	</select>
+	<select id="isValid" parameterType="usersDto" resultType="String">
+		SELECT id
+		FROM users
+		WHERE id=#{id} AND pwd=#{pwd}
+	</select>
+</mapper>
