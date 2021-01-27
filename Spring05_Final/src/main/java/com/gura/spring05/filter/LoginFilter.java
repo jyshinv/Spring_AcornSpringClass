@@ -76,7 +76,7 @@ public class LoginFilter implements Filter {
 			//sendRedirect()의 인자로 적어준 경로로 가라고 요청한다. 이를 redirect 응답이라고 한다. 
 			//redirect응답은 요청을 다시하라는 응답이다. 어디로 요청? sendRedirect의 인자로 적어준 경로로 요청
 			//또한 리다이렉트 시킬 때 원래 목적지 정보를 url이라는 파라미터 명으로 같이 보낸다.
-			res.sendRedirect(cPath+"/users/login_form.do?url="+encodedUrl);
+			res.sendRedirect(cPath+"/users/loginform.do?url="+encodedUrl);
 		}
 		
 		

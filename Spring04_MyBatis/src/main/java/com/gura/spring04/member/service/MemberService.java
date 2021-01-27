@@ -18,4 +18,5 @@ public interface MemberService {
 	public void getMember(int num, ModelAndView mView);
 	//회원 목록을 ModelAndView 에 담아주는 메소드
 	public void getMemberList(ModelAndView mView);
+
 }

@@ -140,7 +140,8 @@
 			return;
 		}
 		$.ajax({
-			url:"checkid.do",
+			//checkid.do 요청 -> controller -> forward이동 -> jsp페이지 -> json resoponse를 해서 responseData로 전달
+			url:"${pageContext.request.contextPath }/users/checkid.do",
 			method:"GET",
 			data:"inputId="+inputId,
 			success:function(responseData){

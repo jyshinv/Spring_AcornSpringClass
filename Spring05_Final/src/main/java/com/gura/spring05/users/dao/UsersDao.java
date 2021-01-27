@@ -8,7 +8,7 @@ public interface UsersDao {
 	//아이디 존재 여부 리턴
 	public boolean isExist(String id);
 	//비밀번호 수정
-	public void updatePwd(UsersDto dto);
+	public boolean updatePwd(UsersDto dto);
 	//회원가입 정보 수정 반영
 	public void update(UsersDto dto);
 	//회원가입 정보 삭제

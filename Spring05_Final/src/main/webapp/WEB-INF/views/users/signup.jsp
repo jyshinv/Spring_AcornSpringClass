@@ -9,7 +9,8 @@
 <body>
 <div class="container">
 	<h1>알림</h1>
-	
+	<p><strong>${dto.id}</strong>님 회원 가입 되었습니다.
+	<a href="${pageContext.request.contextPath }/users/loginform.do">로그인하러가기</a></p>
 </div>
 </body>
 </html>

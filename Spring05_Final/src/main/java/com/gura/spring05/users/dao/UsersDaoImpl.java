@@ -42,15 +42,21 @@ public class UsersDaoImpl implements UsersDao {
 	}
 
 	@Override
-	public void updatePwd(UsersDto dto) {
+	public boolean updatePwd(UsersDto dto) {
 		// TODO Auto-generated method stub
 		/*
 		mapper namespace => users
 		sql id => updatePwd
 		parameterType => UsersDto 
 		 */
-		session.update("users.updatePwd",dto);
-		
+		//영향을 받은 row의 개수를 리턴해준다.
+		int count=session.update("users.updatePwd",dto);
+		//영향받은 row의 개수가 0개이면 비밀번호 변경 실패
+		if(count==0) {
+			return false;
+		}else {//그렇지 않으면 성공
+			return true;
+		}
 	}
 
 	@Override
@@ -61,7 +67,7 @@ public class UsersDaoImpl implements UsersDao {
 		sql id => update
 		parameterType => UsersDto 
 		 */
-		session.update("sers.update",dto);
+		session.update("users.update",dto);
 	}
 
 	@Override
@@ -84,7 +90,7 @@ public class UsersDaoImpl implements UsersDao {
 		parameterType => String
 		resultType => UsersDto
 		 */
-		UsersDto dto=session.selectOne("usets.getData",id);
+		UsersDto dto=session.selectOne("users.getData",id);
 		return dto;
 	}
 

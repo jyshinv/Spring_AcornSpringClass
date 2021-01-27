@@ -1,5 +1,7 @@
+<%@page import="org.apache.ibatis.annotations.Param"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%-- 
 1.
 jsp 페이지 안에서의 주석입니다.
@@ -28,14 +30,19 @@ nav요소는 div요소에 의미를 더한 요소이다.
 --%>
 
  
- <%
+ <%--
  	// "thisPage" 라는 파라미터 명으로 전달된 문자열 읽어오기 
  	String thisPage=request.getParameter("thisPage");
  	//NullPointerException 방지 (500번 버스 안타기)
  	if(thisPage==null){
  		thisPage="";
  	}
- %>
+ 	
+ 	
+ 	위의 코드를 el표현으로  이렇게 고쳐쓸 수 있다. 
+ 	${param.thisPage eq 'cafe' ? 'active':''}
+ --%>
+  
  <%--fixed-top속성값을 추가해주면 상단 네비바가 고정된다. 스크롤을 올렸다 내렸다 해도 상단고정
   (단, 컨텐츠가 가려질 수 있음 navabar을 적용한 각 컨텐츠 jsp파일로 가서 padding값 줘야함(css폴더의  custom.css에서 padding값 적용시킴) --%>
  <nav class="navbar navbar-dark navbar-expand-sm fixed-top" style="background-color:#2C3E50">
@@ -54,37 +61,39 @@ nav요소는 div요소에 의미를 더한 요소이다.
 			<%-- margin-right auto 속성값을 추가하면 ul태그 아래에 있는 속성들이 화면 우측으로 이동함 --%>
 			<ul class="navbar-nav mr-auto">
 				<%--thisPage에 저장된 값이 "cafe"이면 active시켜라 포커싱된다. --%>
-				<li class="nav-item <%=thisPage.equals("cafe") ? "active" : "" %>">
+				<li class="nav-item ${param.thisPage eq 'cafe' ? 'active':''}">
 					<%--글 목록 링크를 누르면 href로 설정한 곳으로 이동(요청) --%>
 					<a class="nav-link" href="${pageContext.request.contextPath }/cafe/list.do">글 목록</a>
 				</li>
 				<%--thisPage에 저장된 값이 "file"이면 active시켜라 포커싱된다. --%>
-				<li class="nav-item <%=thisPage.equals("file") ? "active" : "" %>">
+				<li class="nav-item ${param.thisPage eq 'file' ? 'active':''}">
 					<%--글 목록 링크를 누르면 href로 설정한 곳으로 이동(요청) --%>
 					<a class="nav-link" href="${pageContext.request.contextPath }/file/list.do">자료실</a>
 				</li>
 				<%--thisPage에 저장된 값이 "gallery"이면 active시켜라 포커싱된다. --%>
-				<li class="nav-item <%=thisPage.equals("gallery") ? "active" : "" %>">
+				<li class="nav-item ${param.thisPage eq 'gallery' ? 'active':''}">
 					<%--글 목록 링크를 누르면 href로 설정한 곳으로 이동(요청) --%>
 					<a class="nav-link" href="${pageContext.request.contextPath }/gallery/list.do">갤러리</a>
 				</li>
 			</ul>
-			<%
-				//로그인 된 아이디가 있는지 읽어와본다.
-				String id=(String)session.getAttribute("id");
-			%>
-			<%if(id==null){%>
-				<a class="btn btn-success btn-sm" 
-				href="${pageContext.request.contextPath }/users/login_form.jsp">로그인</a>
-				<%-- ml-1 : margin-left 1단계 즉 4px --%>
-				<a class="btn btn-danger btn-sm ml-1" 
-				href="${pageContext.request.contextPath }/users/signup_form.jsp">회원가입</a>
-			<%}else{ %>
-				<span class="navbar-text">
-					<a href="${pageContext.request.contextPath }/users/private/info.jsp"><%=id%></a>
-					<a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath }/users/logout.jsp">로그아웃</a>
-				</span>
-			<%} %>	
+
+			<c:choose>
+				<%--session scope에 로그인 된 아이디가 있는지 찾아본다.--%>
+				<c:when test="${empty sessionScope.id }">
+					<a class="btn btn-success btn-sm" 
+					href="${pageContext.request.contextPath }/users/loginform.do">로그인</a>
+					<a class="btn btn-danger btn-sm ml-1" 
+					href="${pageContext.request.contextPath }/users/signup_form.do">회원가입</a>
+					</c:when>
+				<%--로그인 된 아이디가 있을 때 아이디를 클릭하면 info.do요청을 하도록 한다. --%>
+				<c:otherwise>
+					<span class="navbar-text">
+						<a href="${pageContext.request.contextPath }/users/private/info.do">${sessionScope.id }</a>
+						<a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath }/users/logout.do">로그아웃</a>
+					</span>
+				</c:otherwise>
+			</c:choose>
+	
 		</div>
 	</div>
 </nav>     
