@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring05.users.dto.UsersDto;
@@ -23,4 +24,8 @@ public interface UsersService {
 	public void deleteUser(HttpSession session);
 	//비밀번호를 수정하는 처리를 하고 성공 여부를 ModelAndView 객체에 담는 메소드
 	public void updateUserPwd(ModelAndView mView, UsersDto dto, HttpSession session);
+	//프로필 이미지를 upload폴더에 저장하고 저장된 파일명을 DB에 저장하는 메소드
+	public void saveProfile(MultipartFile image, HttpServletRequest request );
+	//개인정보를 수정하는 메소드 (여기에서는 이메일 주소만)
+	public void updateUser(UsersDto dto, HttpSession session);
 }

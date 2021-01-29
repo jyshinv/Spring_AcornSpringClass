@@ -29,8 +29,8 @@ public class UsersDaoImpl implements UsersDao {
 		/*
 		mapper namespace => users
 		sql id => isExist
-		parameterType => id
-		resultType=>UsersDt
+		parameterType => String
+		resultType=>UsersDto
 		 */
 		//아이디가 존재하면(이미 등록된 아이디) null이 아니고 존재하지 않으면 null이다.
 		UsersDto dto=session.selectOne("users.isExist",id);

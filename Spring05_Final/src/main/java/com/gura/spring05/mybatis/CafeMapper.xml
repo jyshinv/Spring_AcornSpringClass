@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cafe">
+	<update id="addViewCount" parameterType="int">
+		UPDATE board_cafe
+		SET viewCount=viewCount+1
+		WHERE num=#{num}
+	</update>
+	
+	<select id="getCount" parameterType="cafeDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM board_cafe
+		<choose>
+			<!-- if문과 비슷한 구조임, title과 content가 둘다 null아 아니라면, 제목, 내용겁색 -->
+		 	<when test="title != null and content != null">
+		 		WHERE title LIKE '%' || #{title} || '%' OR content LIKE '%' || #{content} || '%'
+		 	</when>
+			<!--title이 null이 아니라면-->
+		 	<when test="title != null">
+		 		WHERE title LIKE '%' || #{title} || '%'
+		 	</when>
+			<!--writer이 null이 아니라면-->
+		 	<when test="writer != null">
+		 		WHERE writer LIKE '%' || #{writer} || '%'
+		 	</when>
+			<!-- 모두 null 이라면 WHERE절에 쿼리문이 들어가지 않는다. -->
+		</choose> 
+	</select>
+
+
+	<select id="getList" parameterType="cafeDto" resultType="cafeDto">
+		<!-- mybatis의 특징 중 하나는  dynamic query를 지원한다는 것이다 아래 query문을 통해 dynamic query문을 어떻게 구성하는지 알아보자 -->
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM		
+				(SELECT num, writer, title, content, viewCount, regdate
+				FROM board_cafe
+				<choose>
+					<!-- if문과 비슷한 구조임, title과 content가 둘다 null아 아니라면, 제목, 내용겁색 -->
+				 	<when test="title != null and content != null">
+				 		WHERE title LIKE '%' || #{title} || '%' OR content LIKE '%' || #{content} || '%'
+				 	</when>
+					<!--title이 null이 아니라면-->
+				 	<when test="title != null">
+				 		WHERE title LIKE '%' || #{title} || '%'
+				 	</when>
+					<!--writer이 null이 아니라면-->
+				 	<when test="writer != null">
+				 		WHERE writer LIKE '%' || #{writer} || '%'
+				 	</when>
+					<!-- 모두 null 이라면 WHERE절에 쿼리문이 들어가지 않는다. -->
+				</choose>
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+		
+	</select>
+	
+	<insert id="insert" parameterType="cafeDto">
+		INSERT INTO board_cafe
+		(num, writer, title, content, viewCount, regdate)
+		VALUES(board_cafe_seq.NEXTVAL, #{writer}, #{title}, #{content}, 0, SYSDATE)
+	</insert>
+	
+	<select id="getData" parameterType="int" resultType="cafeDto">
+		SELECT num, writer, title, content, viewCount, regdate
+		FROM board_cafe
+		WHERE num=#{num}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board_cafe WHERE num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="cafeDto">
+		UPDATE board_cafe SET title=#{title},content=#{content} WHERE num=#{num}
+	</update>
+	
+</mapper>

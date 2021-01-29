@@ -1,5 +1,8 @@
 package com.gura.spring04.member.service;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring04.member.dto.MemberDto;
@@ -18,5 +21,6 @@ public interface MemberService {
 	public void getMember(int num, ModelAndView mView);
 	//회원 목록을 ModelAndView 에 담아주는 메소드
 	public void getMemberList(ModelAndView mView);
+	
 
 }

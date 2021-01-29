@@ -13,6 +13,7 @@
 	<h1>인덱스 페이지 입니다.</h1>
 	<ul>
 		<li><a href="users/signup_form.do">회원가입</a></li>
+		<li><a href="cafe/private/insertform.do">카페 글쓰러 가기</a></li>
 	</ul>
 </div>
 </body>

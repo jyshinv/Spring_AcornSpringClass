@@ -57,6 +57,11 @@
 		new SqlSessionTemplate(sessionFactory);
 	 -->
 	 	
+	 <!-- 
+	 파일전송과 같은 폼전송 처리를 위한 bean 설정이다.
+	 CommonsMultipartResolver객체가 있으면 파일전송이 가능하다
+	 또한 maxUploadSize를 바이트 단위로 value속성에 설정해주면 된다. 
+	  -->
 	 <!-- Multipart 폼 전송 처리를 위한 bean 설정 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
