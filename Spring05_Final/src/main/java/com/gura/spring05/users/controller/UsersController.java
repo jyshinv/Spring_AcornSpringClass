@@ -166,7 +166,7 @@ public class UsersController {
 //		return mView;
 //	}
 	
-	//이 방식은 checkid.jsp가 없어도 된다. (실제로 지워도 동작한다.)
+	//이 방식은 checkid.jsp가 없어도 된다. (실제로 chceckid.jsp를 지워도 동작한다.)
 	//위의 ajax요청 처리는 아래와 같이 처리할 수 있다. 
 	//ajax 요청 처리 
 	@RequestMapping("/users/checkid.do")

@@ -33,11 +33,12 @@ public class UsersDaoImpl implements UsersDao {
 		resultType=>UsersDto
 		 */
 		//아이디가 존재하면(이미 등록된 아이디) null이 아니고 존재하지 않으면 null이다.
+		//불러오는 값이 UserDto 객체 단 한개이므로 selectOne을 써주어야한다.
 		UsersDto dto=session.selectOne("users.isExist",id);
-		if(dto==null) {
-			return false;
+		if(dto==null) { //아이디가 존재하지 않으므로
+			return false;  //존재하지 않는다는 의미의 false
 		}else {
-			return true;
+			return true; //존재한다는 의미로 true
 		}
 	}
 
@@ -50,6 +51,7 @@ public class UsersDaoImpl implements UsersDao {
 		parameterType => UsersDto 
 		 */
 		//영향을 받은 row의 개수를 리턴해준다.
+		// UsersMapper에서 sql id가 update인 곳의 resultType을 따로 적어주지 않아도 기본적으로 영향받은 row의 개수를 리턴해준다고 생각하자.
 		int count=session.update("users.updatePwd",dto);
 		//영향받은 row의 개수가 0개이면 비밀번호 변경 실패
 		if(count==0) {

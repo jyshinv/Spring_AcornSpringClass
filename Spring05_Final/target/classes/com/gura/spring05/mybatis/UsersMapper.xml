@@ -36,11 +36,23 @@
 		(id, pwd, email, regdate)
 		VALUES(#{id}, #{pwd}, #{email}, SYSDATE)
 	</insert>
+	<!-- 
+	isExist의 경우 boolean을 리턴해야하지만 resultType으로 boolean은 쓸 수 없다. 
+	select 해서 user테이블의 모든 값이 리턴되면 UsersDto에 *한 결과가 담기지만
+	select 해서 아무 값도 리턴되지 않으면 UsersDto에 null이 담긴다.
+	따라서 resultType으로 usersDto를 적어주어야 한다. 
+	-->
 	<select id="isExist" parameterType="String" resultType="usersDto">
 		SELECT *
 		FROM users
 		WHERE id=#{id}
 	</select>
+	<!-- 
+	isValid의 경우 boolean을 리턴해야하지만 resultType으로 boolean은 쓸 수 없다. 
+	select 해서 아이디가 제대로 리턴되면 String값이 리턴되고 
+	select 해서 아무 아이디도 리턴되지 않으면 null이 리턴된다. 
+	따라서 resultType으로 String을 써주어야한다.
+	-->
 	<select id="isValid" parameterType="usersDto" resultType="String">
 		SELECT id
 		FROM users

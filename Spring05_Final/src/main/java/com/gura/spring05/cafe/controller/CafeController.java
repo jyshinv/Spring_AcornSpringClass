@@ -30,6 +30,9 @@ public class CafeController {
 	//글 수정 요청처리
 	@RequestMapping(value="/cafe/private/update.do", method=RequestMethod.POST)
 	public String update(@ModelAttribute("dto") CafeDto dto) {
+		//update메소드의 매개변수인 CafeDto dto를 forward이동된 jsp페이지에서 사용하고 싶을 때 ModelAttribute("dto")로 지정하면 된다. 
+		//그럼 jsp페이지에서 dto.~ 으로 사용할 수 있다. 
+		//즉, ModelAttribute("dto")는 ModelAndView에 담거나, request.setParameter로 데이터를 담는 효과가 있다. 
 		service.update(dto);
 		return "cafe/private/update";
 	}

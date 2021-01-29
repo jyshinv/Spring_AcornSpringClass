@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -140,7 +141,10 @@
 			return;
 		}
 		$.ajax({
+			//컨트롤러에서 responsebody안쓰고 forward 이동해서 요청할 경우
 			//checkid.do 요청 -> controller -> forward이동 -> jsp페이지 -> json resoponse를 해서 responseData로 전달
+			//컨트롤러에서 responsebody쓸 경우 
+			//checkid.do 요청 -> controller -> 바로 응답 
 			url:"${pageContext.request.contextPath }/users/checkid.do",
 			method:"GET",
 			data:"inputId="+inputId,
