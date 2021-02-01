@@ -14,6 +14,7 @@ import com.gura.spring05.cafe.dao.CafeCommentDao;
 import com.gura.spring05.cafe.dao.CafeDao;
 import com.gura.spring05.cafe.dto.CafeCommentDto;
 import com.gura.spring05.cafe.dto.CafeDto;
+import com.gura.spring05.exception.DBFailException;
 
 @Service
 public class CafeServiceImpl implements CafeService{
@@ -203,7 +204,7 @@ public class CafeServiceImpl implements CafeService{
 		//댓글의 정보를 얻어와서 댓글의 작성자와 같은지 비교 한다.
 		String writer=cafeCommentDao.getData(num).getWriter();
 		if(!writer.equals(id)) {
-			//throw new NotDeleteException("남의 댓글을 삭제할수 없습니다.");
+			throw new DBFailException("남의 댓글을 삭제할수 없습니다.");
 		}
 		cafeCommentDao.delete(num);
 	}
