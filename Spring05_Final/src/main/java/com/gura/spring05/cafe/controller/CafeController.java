@@ -94,4 +94,13 @@ public class CafeController {
 		// /WEB-INF/views/cafe/private/insertform.jsp 페이지로 forward이동해서 응답하겠다.
 		return "cafe/private/insertform";
 	}
+	
+	//댓글 삭제 기능
+	@RequestMapping("/cafe/private/comment_delete")
+	public ModelAndView commentDelete(HttpServletRequest request,
+			ModelAndView mView, @RequestParam int ref_group) {
+		service.deleteComment(request);
+		mView.setViewName("redirect:/cafe/detail.do?num="+ref_group);
+		return mView;
+	}
 }

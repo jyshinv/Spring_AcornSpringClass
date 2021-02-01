@@ -31,4 +31,10 @@
 		SELECT board_cafe_comment_seq.NEXTVAL
 		FROM DUAL
 	</select>
+	<select id="getData" parameterType="int" resultType="cafeCommentDto">
+		SELECT num,writer,content,ref_group,comment_group,deleted,regdate
+		FROM board_cafe_comment
+		WHERE num=#{num}
+	</select>
+	
 </mapper>
