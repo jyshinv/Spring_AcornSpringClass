@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gura.spring05.cafe.dao.CafeCommentDao;
 import com.gura.spring05.cafe.dao.CafeDao;
+import com.gura.spring05.cafe.dto.CafeCommentDto;
 import com.gura.spring05.cafe.dto.CafeDto;
 
 @Service
@@ -20,6 +22,10 @@ public class CafeServiceImpl implements CafeService{
 	//CafeDao 객체를 주입해서 쓴다.
 	@Autowired
 	private CafeDao cafeDao;
+	
+	//의존 객체 DI	
+	@Autowired
+	private CafeCommentDao cafeCommentDao;
 	
 
 	@Override
@@ -132,6 +138,11 @@ public class CafeServiceImpl implements CafeService{
 		mView.addObject("dto", dto);
 		//글 조회수를 증가시킨다.
 		cafeDao.addViewCount(num);
+		//원글의 글 번호를 이용해서 댓글 목록을 얻어온다.
+		List<CafeCommentDto> commentList=cafeCommentDao.getList(num);
+		//ModelAndView 객체 댓글 목록도 담아온다.
+		mView.addObject("commentList", commentList);
+		
 	}
 
 
@@ -148,4 +159,38 @@ public class CafeServiceImpl implements CafeService{
 		cafeDao.delete(num);
 	}
 
+
+	@Override
+	public void saveComment(HttpServletRequest request) {
+		//댓글 작성자(로그인된 아이디)
+		String writer=(String)request.getSession().getAttribute("id");
+		//폼 전송되는 댓글의 정보 얻어내기
+		int ref_group=Integer.parseInt(request.getParameter("ref_group"));
+		String target_id=request.getParameter("target_id");
+		String content=request.getParameter("content");
+		/*
+		 * 원글의 댓글은 comment_group 번호가 전송이 안되고
+		 * 댓글의 댓글은 comment_group 번호가 전송이 된다.
+		 * 따라서 null 여부를 조사하면 원글의 댓글인지 댓글의 댓글인지 판별할수 있다.
+		 */
+		String comment_group=request.getParameter("comment_group");
+		//새 댓글의 글번호는 미리 얻어낸다.
+		int seq=cafeCommentDao.getSequence();
+		//저장할 새 댓글 정보를 dto 에 담기
+		CafeCommentDto dto=new CafeCommentDto();
+		dto.setNum(seq);
+		dto.setWriter(writer);
+		dto.setTarget_id(target_id);
+		dto.setContent(content);
+		dto.setRef_group(ref_group);
+		if(comment_group == null) {//원글의 댓글인 경우 
+			//댓글의 글번호와 comment_group 번호를 같게 한다.
+			dto.setComment_group(seq);
+		}else {//댓글의 댓글인 경우 
+			//폼 전송된 comment_group 번호를 숫자로 바꿔서 dto 에 넣어준다.
+			dto.setComment_group(Integer.parseInt(comment_group));
+		}
+		//댓글 정보를 DB 에 저장한다.
+			cafeCommentDao.insert(dto);
+	}
 }
