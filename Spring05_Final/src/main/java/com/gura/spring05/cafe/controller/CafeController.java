@@ -79,6 +79,8 @@ public class CafeController {
 		return mView;
 	}
 	
+
+	
 	//카페 새글 저장 요청 처리
 	@RequestMapping(value="/cafe/private/insert.do", method=RequestMethod.POST)
 	public String insert(CafeDto dto, HttpSession session) {
@@ -110,7 +112,6 @@ public class CafeController {
 	}
 	
 	//댓글 수정 ajax 요청에 대한 요청 처리
-	//댓글 수정 ajax 요청에 대한 요청 처리 
 	@RequestMapping(value = "/cafe/private/comment_update", 
 			method=RequestMethod.POST)
 	@ResponseBody
