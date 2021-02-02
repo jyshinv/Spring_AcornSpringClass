@@ -180,7 +180,7 @@
 										@<i>${tmp.target_id }</i>
 									</c:if>
 									<span>${tmp.regdate }</span>
-									<a href="javascript:" class="reply-link">답글</a>
+									<a data-num="${tmp.num }" href="javascript:" class="reply-link">답글</a>
 									<!-- 아이디와 댓글의 작성자가 같으면 수정과 삭제 버튼을 출력 -->
 									<c:if test="${tmp.writer eq sessionScope.id }">
 										| <a data-num="${tmp.num }" href="javascript:" class="comment-update-link">수정</a>
@@ -233,7 +233,12 @@
 <script>
 	//댓글 수정 링크를 눌렀을 때 호출되는 함수 등록
 	$(".comment-update-link").on("click", function(){
+		/*
+		click 이벤트가 일어난 댓글 수정 링크에 저장된 data-num 속성의 값을 
+		읽어와서 id 선택자를 구성한다.
+		*/
 		var selector="#comment"+$(this).attr("data-num");
+		//구성된 id  선택자를 이용해서 원하는 li 요소에서 .update-form 을 찾아서 동작하기
 		$(selector)
 		.find(".update-form")
 		.slideToggle();
@@ -272,8 +277,11 @@
 					"url=${pageContext.request.contextPath }/cafe/detail.do?num=${dto.num}";
 		}
 		
-		$(this).parent().parent().parent().find(".re-insert-form")
+		var selector="#comment"+$(this).attr("data-num");
+		$(selector)
+		.find(".re-insert-form")
 		.slideToggle();
+		
 		if($(this).text()=="답글"){//링크 text를 답글일때 클릭하면 
 			$(this).text("취소");//취소로 바꾸고 
 		}else{//취소일때 크릭하면 
