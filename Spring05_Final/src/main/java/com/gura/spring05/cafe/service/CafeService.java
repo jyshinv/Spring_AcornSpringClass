@@ -24,4 +24,6 @@ public interface CafeService {
 	public void deleteComment(HttpServletRequest request);
 	//댓글을 수정하는 메소드
 	public void updateComment(CafeCommentDto dto);
+	//댓글을 추가 응답하는 메소드
+	public void moreCommentList(HttpServletRequest request);
 }

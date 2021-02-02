@@ -124,4 +124,12 @@ public class CafeController {
 		map.put("content", dto.getContent());
 		return map;
 	}
+	
+	@RequestMapping("/cafe/ajax_comment_list")
+	public ModelAndView ajaxCommentList(HttpServletRequest request,
+			ModelAndView mView) {
+		service.moreCommentList(request);
+		mView.setViewName("cafe/ajax_comment_list");
+		return mView;
+	}
 }
