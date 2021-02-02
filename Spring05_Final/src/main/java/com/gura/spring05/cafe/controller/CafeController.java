@@ -55,17 +55,17 @@ public class CafeController {
 	
 	//글 수정 폼 요청처리
 	@RequestMapping("/cafe/private/update_form.do")
-	public ModelAndView updateform(int num, ModelAndView mView) {
-		service.getDatail(num, mView);
+	public ModelAndView updateform(int num, ModelAndView mView, HttpServletRequest request) {
+		service.getDatail(num, mView, request);
 		mView.setViewName("cafe/private/update_form");
 		return mView;
 	}
 	
 	//글 상세보기 요청 처리
 	@RequestMapping("/cafe/detail.do")
-	public ModelAndView detail(@RequestParam int num, ModelAndView mView) {
+	public ModelAndView detail(@RequestParam int num, ModelAndView mView, HttpServletRequest request) {
 		//자세히 보여줄 글 번호가 파라미터로 넘어온다.
-		service.getDatail(num, mView);
+		service.getDatail(num, mView, request);
 		//view page로 forward 이동해서 응답
 		mView.setViewName("cafe/detail");
 		return mView;

@@ -132,7 +132,7 @@ public class CafeServiceImpl implements CafeService{
 
 
 	@Override
-	public void getDatail(int num, ModelAndView mView) {
+	public void getDatail(int num, ModelAndView mView, HttpServletRequest request) {
 		//글번호를 이용해서 글 정보를 얻어오고
 		CafeDto dto=cafeDao.getData(num);
 		//글 정보를 ModelAndView 객체에 담고
@@ -142,21 +142,42 @@ public class CafeServiceImpl implements CafeService{
 		
 		/* 아래는 댓글 페이징 처리 관련 비즈니스 로직 입니다.*/
 		final int PAGE_ROW_COUNT=5;
+		final int PAGE_DISPLAY_COUNT=5;
+	
 
-		//보여줄 페이지의 번호
-		int pageNum=1;
-
+		//전체 row 의 갯수를 읽어온다.
+		//자세히 보여줄 글의 번호가 ref_group  번호 이다. 
+		int totalRow=cafeCommentDao.getCount(num);
+		
+		//보여줄 페이지의 번호(만일 pageNum 이 넘어오지 않으면 가장 마지막 페이지)
+		String strPageNum=request.getParameter("pageNum");
+		
+		//전체 페이지의 갯수 구하기
+		int totalPageCount=
+				(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+		
+		//일단 마지막 페이지의 댓글 목록을 보여주기로 하고 
+		int pageNum=totalPageCount;
+		//만일 페이지 번호가 넘어온다면
+		if(strPageNum!=null) {
+			//넘어온 페이지에 해당하는 댓글 목록을 보여주도록 한다. 
+			pageNum=Integer.parseInt(strPageNum);
+		}
 		//보여줄 페이지 데이터의 시작 ResultSet row 번호
 		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
 		//보여줄 페이지 데이터의 끝 ResultSet row 번호
 		int endRowNum=pageNum*PAGE_ROW_COUNT;
 
-		//전체 row 의 갯수를 읽어온다.
-		//자세히 보여줄 글의 번호가 ref_group  번호 이다. 
-		int totalRow=cafeCommentDao.getCount(num);
-		//전체 페이지의 갯수 구하기
-		int totalPageCount=
-				(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+
+		//시작 페이지 번호
+		int startPageNum=
+			1+((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
+		//끝 페이지 번호
+		int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
+		//끝 페이지 번호가 잘못된 값이라면 
+		if(totalPageCount < endPageNum){
+			endPageNum=totalPageCount; //보정해준다. 
+		}
 
 		// CafeCommentDto 객체에 위에서 계산된 startRowNum 과 endRowNum 을 담는다.
 		CafeCommentDto commentDto=new CafeCommentDto();
@@ -171,6 +192,9 @@ public class CafeServiceImpl implements CafeService{
 		//ModelAndView 객체 댓글 목록도 담아온다.
 		mView.addObject("commentList", commentList);
 		mView.addObject("totalPageCount", totalPageCount);
+		mView.addObject("startPageNum",startPageNum);
+		mView.addObject("endPageNum",endPageNum);
+		mView.addObject("pageNum", pageNum);
 		
 	}
 
@@ -277,6 +301,7 @@ public class CafeServiceImpl implements CafeService{
 		List<CafeCommentDto> commentList=cafeCommentDao.getList(commentDto);
 		//request 에 담아준다.
 		request.setAttribute("commentList", commentList);
-		request.setAttribute("totalPageCount", totalPageCount);		
+		request.setAttribute("totalPageCount", totalPageCount);	
+
 	}
 }
