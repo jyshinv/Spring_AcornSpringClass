@@ -76,7 +76,7 @@ public class FileDownView extends AbstractView{
 			//byte[] 객체를 이용해서 파일에서 byte 알갱이 읽어오기
 			readedByte = fis.read(buffer);
 			if(readedByte == -1)break; //더이상 읽을 데이터가 없다면 반복문 빠져 나오기
-			//읽은 만큼 출력하기
+			//buffer 배열의 0번방에서 부터 ~ 읽은만큼 출력하기 
 			bos.write(buffer, 0, readedByte);
 			bos.flush(); //출력
 		}
