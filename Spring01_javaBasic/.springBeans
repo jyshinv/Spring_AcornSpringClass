@@ -10,6 +10,7 @@
 		<config>src/test/main/init.xml</config>
 		<config>src/test/main2/init.xml</config>
 		<config>src/test/main3/init.xml</config>
+		<config>src/test/aop/init.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
