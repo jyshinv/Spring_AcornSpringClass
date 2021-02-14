@@ -6,7 +6,7 @@
 		(num, writer, caption, imagePath, regdate)
 		VALUES(board_gallery_seq.NEXTVAL, #{writer}, #{caption}, #{imagePath},SYSDATE)
 	</insert>
-	<select id="getData" parameterType="int">
+	<select id="getData" parameterType="int" resultType="galleryDto">
 		SELECT * 
 		FROM
 			(SELECT num, writer, caption, imagePath, regdate,
