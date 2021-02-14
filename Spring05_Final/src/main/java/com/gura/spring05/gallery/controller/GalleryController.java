@@ -20,5 +20,12 @@ public class GalleryController {
 		mView.setViewName("gallery/list");
 		return mView;
 	}
+	
+	@RequestMapping("/gallery/ajax_page")
+	public ModelAndView ajaxPage(ModelAndView mView, HttpServletRequest request) {
+		service.getList(mView, request);
+		mView.setViewName("gallery/ajax_page");
+		return mView;
+	}
 
 }

@@ -12,7 +12,7 @@
 	- 반드시 jquery.js 가 먼저 로딩이 되어 있어야지만 동작한다.
 	- 사용법은 이미지의 부모 div 크기를 결정하고 이미지를 선택해서  .imgLiquid() 동작을 하면된다.
  -->
-<script src="${pageContext.request.contextPath }/js/imgLiquid.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/imgLiquid.js"></script>
 <style>
 	/* card 이미지 부모요소의 높이 지정 */
 	.img-wrapper{
