@@ -27,5 +27,10 @@ public class GalleryController {
 		mView.setViewName("gallery/ajax_page");
 		return mView;
 	}
+	
+	@RequestMapping("/gallery/private/upload_form")
+	public String uploadForm() {
+		return "gallery/private/upload_form";
+	}
 
 }
