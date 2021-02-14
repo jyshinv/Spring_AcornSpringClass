@@ -12,6 +12,8 @@
 			alias="cafeDto"/>
 		<typeAlias type="com.gura.spring05.cafe.dto.CafeCommentDto"
 			alias="cafeCommentDto"/>
+		<typeAlias type="com.gura.spring05.file.dto.FileDto"
+			alias="fileDto"/>
 	</typeAliases>
 
 	
@@ -20,6 +22,7 @@
 		<mapper resource="com/gura/spring05/mybatis/UsersMapper.xml"/>
 		<mapper resource="com/gura/spring05/mybatis/CafeMapper.xml"/>
 		<mapper resource="com/gura/spring05/mybatis/CafeCommentMapper.xml"/>
+		<mapper resource="com/gura/spring05/mybatis/FileMapper.xml"/>
 	</mappers>
 
 
