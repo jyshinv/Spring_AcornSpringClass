@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gura.spring05.gallery.dto.GalleryDto;
 import com.gura.spring05.gallery.service.GalleryService;
 
 @Controller
@@ -31,6 +33,12 @@ public class GalleryController {
 	@RequestMapping("/gallery/private/upload_form")
 	public String uploadForm() {
 		return "gallery/private/upload_form";
+	}
+	
+	@RequestMapping(value = "/gallery/private/upload", method = RequestMethod.POST)
+	public String upload(GalleryDto dto, HttpServletRequest request) {
+		service.saveContent(dto, request);
+		return "redirect:/gallery/list.do";
 	}
 
 }
