@@ -9,5 +9,6 @@ CREATE TABLE board_cafe_comment(
 	deleted CHAR(3) DEFAULT 'no', --삭제된 댓글인지 여부 'yes' or 'no'
 	regdate DATE --댓글 작성일
 );
+
 -- 댓글의 글번호를 얻어낼 시퀀스
 CREATE SEQUENCE board_cafe_comment_seq

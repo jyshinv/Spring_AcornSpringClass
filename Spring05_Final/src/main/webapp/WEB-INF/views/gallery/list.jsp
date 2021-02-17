@@ -82,6 +82,7 @@
 				<div class="card mb-3">
 					<a href="detail.do?num=${tmp.num }">
 						<div class="img-wrapper">
+							<!-- 아래 코드의 src 해석결과는 spring05/upload/xxx.jpg임! -->
 							<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
 						</div>
 					</a>

@@ -37,24 +37,27 @@ public class GalleryController {
 		return mView;
 	}
 	
+	//업로드하러가기1 구현을 위한 코드
 	@RequestMapping("/gallery/private/upload_form")
 	public String uploadForm() {
 		return "gallery/private/upload_form";
 	}
 	
+	//업로드하러가기1 구현을 위한 코드
 	@RequestMapping(value = "/gallery/private/upload", method = RequestMethod.POST)
 	public String upload(GalleryDto dto, HttpServletRequest request) {
 		service.saveContent(dto, request);
 		return "redirect:/gallery/list.do";
 	}
 	
+	//ajax 업로드 (업로드하러가기2) 구현을 위한 코드
 	@RequestMapping("/gallery/private/ajax_form")
 	public String ajaxForm() {
-
 		return "gallery/private/ajax_form";
 	}
-	@RequestMapping(value = "/gallery/private/ajax_upload", method=RequestMethod.POST)
 	
+	//ajax 업로드 (업로드하러가기2) 구현을 위한 코드 
+	@RequestMapping(value = "/gallery/private/ajax_upload", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxUpload(MultipartFile image, HttpServletRequest request){
 		//업로드된 이미지를 upload 폴더에 저장하고 경로를 리턴 받는다.
@@ -65,6 +68,8 @@ public class GalleryController {
 		//Map  을 리턴해서 JSON 문자열이 응답되도록 한다. {"imagePath":"/upload/xxx.jpg"} 형식
 		return map;
 	}
+	
+	//ajax업로드 (업로드하러가기2) 구현을 위한 코드 
 	@RequestMapping(value = "/gallery/private/insert", method=RequestMethod.POST)
 	public String insert(GalleryDto dto, HttpSession session) {
 		service.addContent(dto, session);
