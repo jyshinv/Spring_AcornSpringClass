@@ -31,7 +31,7 @@ public class WritingUtil {
 	}
 	
 	public String getGreet() {
-		return "맛점하세요"; 
+		return "맛점하세요";  //핵심 비즈니스 로직
 	}
 	
 	

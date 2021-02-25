@@ -28,13 +28,16 @@ public class WritingAspect {
 		System.out.println("pen을 다시 정리해요");
 	}
 	
-	@Around("execution(void *Email(java.lang.String))")
+	//Before과 After을 합친것이 Around 
+	@Around("execution(void *Email(java.lang.String))") //Email로 끝나는 메소드가 수행되기 전후에 메소드를 호출하라 
 	public void emailConcern(ProceedingJoinPoint joinPoint) throws Throwable {
-		//aspect가 적용된 메소드가 수행되기 이전에 작업할 내용
+		//aspect가 적용된 메소드가 수행되기 이전에 작업할 내용(메소드 수행 이전에 실행한다.)
 		System.out.println("이전과 이후는 어떻게 구별하지?");
+		System.out.println("이메일 보내기 이전입니다!");
 		//aspect가 적용된 메소드 호출해서 수행하기
 		joinPoint.proceed();
-		//aspect가 적용된 메소드가 리턴된 직후 작업할 내용
+		//aspect가 적용된 메소드가 리턴된 직후 작업할 내용(리턴된 직후!! 즉, 함수가 종료되고 나서)
+		System.out.println("이베일 보낸 이후입니다!");
 		System.out.println("웹브라우저를 닫아요!");
 	}
 	
@@ -50,7 +53,7 @@ public class WritingAspect {
 		
 		//아래 힌틀를 이용해 바보나 똥깨라는 말이 들어가면 proceed메소드가 호출되지 않도록 만들어보시오
 		String str="하나 바보 두울";
-		boolean result=str.contains("바보");
+		boolean result=str.contains("바보"); //바보가 str안에 포함되어 있다면 true를 반환한다. 
 		
 		//인자로 전달된 String type의 참조값 얻어내기
 		Object[] args=joinPoint.getArgs();

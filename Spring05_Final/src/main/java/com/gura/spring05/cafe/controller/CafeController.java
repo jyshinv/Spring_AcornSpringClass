@@ -116,12 +116,25 @@ public class CafeController {
 			method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> commentUpdate(CafeCommentDto dto){
+		
+		
+		//핵심 비즈니스 로직과 상관없는 코드1
+		long startTime=System.currentTimeMillis(); //시작시간
+		
+		//핵심 비즈니스 로직
 		//댓글을 수정 반영하고 
 		service.updateComment(dto);
 		//JSON 문자열을 클라이언트에게 응답한다.
 		Map<String, Object> map=new HashMap<>();
 		map.put("num", dto.getNum());
 		map.put("content", dto.getContent());
+		
+		//핵심 비즈니스 로직과 상관없는 코드2
+		long endTime=System.currentTimeMillis(); //시작시간
+		long time=endTime-startTime; //소요시간(처리하는데 소요된 시간을 의미)
+		System.out.println("소요시간:"+time+" 입니다.");//처리하는데 걸린 시간 출력
+		
+		//핵심 비즈니스 로직 
 		return map;
 	}
 	

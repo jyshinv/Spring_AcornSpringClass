@@ -8,6 +8,8 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	
 	<!-- test.util패키지 내의 @Component가 붙은 클래스는 bean으로 관리하겠다는 뜻이다. -->
+	<!-- test.util패키지, test.aspect패키지 내의 클래스에 @Component를 붙여 bean으로 관리한다. 
+	bean으로 되어있는 클래스들을 component-scan을 통해 객체를 생성해서 사용한다.  -->
 	<context:component-scan base-package="test.util"></context:component-scan>
 	<context:component-scan base-package="test.aspect"></context:component-scan>
 	<context:component-scan base-package="test.cafe"></context:component-scan>
