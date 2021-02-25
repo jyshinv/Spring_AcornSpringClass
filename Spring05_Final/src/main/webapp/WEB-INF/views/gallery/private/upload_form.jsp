@@ -15,7 +15,7 @@
 			<input type="text" name="caption" id="caption"/>
 		</div>
 		<div>
-			<label for="image">이미지</label>
+			<label for="image">이미지</label><!--name은 GalleryDto의 MultipartFile타입의 변수 이름과 일치시켜야 한다.-->
 			<input type="file" name="image" id="image"
 				accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
 		</div>

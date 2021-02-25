@@ -11,6 +11,7 @@
 	jquery 플러그인 imgLiquid.js 로딩하기
 	- 반드시 jquery.js 가 먼저 로딩이 되어 있어야지만 동작한다.(include폴더의 resource.jsp에 있다.)
 	- 사용법은 이미지의 부모 div 크기를 결정하고 이미지를 선택해서  .imgLiquid() 동작을 하면된다.
+	- 이미지 리퀴드 플러그인이 뭔지 알기 (최대의 크기로 조금 잘리더라도 정해진 크기의 네모틀 안에 사진이 들어가도록 만들어준다.)
  -->
 <script src="${pageContext.request.contextPath }/resources/js/imgLiquid.js"></script>
 <style>
@@ -75,14 +76,15 @@
 <div class="container">
 	<a href="private/upload_form.do">사진 업로드 하러 가기</a><br/>
 	<a href="private/ajax_form.do">사진 업로드 하러 가기2</a>
-	<h1>겔러리 목록 입니다.</h1>
+	<h1>갤러리 목록 입니다.</h1>
 	<div class="row" id="galleryList">
+		<!-- tmp는 GalleryDto type임 따라서 Dto의 필드명을 정확하게 명시해주어야한다. (tmp가 무슨타입인지 정확히 알고있어야한다.)-->
 		<c:forEach var="tmp" items="${list }">
 			<div class="col-6 col-md-4 col-lg-3">
 				<div class="card mb-3">
 					<a href="detail.do?num=${tmp.num }">
 						<div class="img-wrapper">
-							<!-- 아래 코드의 src 해석결과는 spring05/upload/xxx.jpg임! -->
+							<!-- 아래 코드의 src 해석결과는 spring05/upload/xxx.jpg임! DB의 imagePath컬럼에 저장된 값을 확인해볼 것 -->
 							<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
 						</div>
 					</a>
@@ -97,6 +99,7 @@
 	</div>
 </div>
 <div class="back-drop">
+	<!-- cpath/ 에서 '/'는 webapp을 의미한다. 웹앱 폴더의 svg폴더 안에 spinner-solid.svg가 들어있다.  -->
 	<img src="${pageContext.request.contextPath }/svg/spinner-solid.svg"/>
 </div>
 <script>
@@ -110,7 +113,7 @@
 	
 	//웹브라우저의 창을 스크롤 할때 마다 호출되는 함수 등록
 	$(window).on("scroll", function(){
-		console.log("scorll!");
+		console.log("scorll!");    
 		//최 하단까지 스크롤 되었는지 조사해 본다.
 		//위로 스크롤된 길이
 		let scrollTop=$(window).scrollTop();
@@ -123,7 +126,7 @@
 		if(isBottom){
 			console.log("오매~ 바닥이네?");
 			//만일 현재 마지막 페이지라면
-			if(currentPage == ${totalPageCount} || isLoading){
+			if(currentPage == ${totalPageCount } || isLoading){
 				return; //함수를 여기서 끝낸다. 
 			}
 			//현재 로딩 중이라고 표시한다. 
@@ -132,11 +135,13 @@
 			$(".back-drop").show();
 			//요청할 페이지 번호를 1 증가 시킨다
 			currentPage++;
-			//추가로 받아올 페이지를 서버에 ajax 요청을 하고
+			//추가로 받아올 페이지를 서버에 ajax 요청을 하고 (/gallery/list.do 요청처리와 /gallery/ajax_page.do 요청처리를 해주어야한다. )
+			//추가로 받아올 페이지를 웹브라우저의 검사 기능의 console창에서 확인할 수 있다. 
 			$.ajax({
-				url:"ajax_page.do",
+				url:"ajax_page.do",  
 				method:"GET",
 				data:"pageNum="+currentPage, // {pageNum:currentPage} 도 가능
+				//ajax_page.jsp의 내용이 data로 들어온다. 
 				success:function(data){
 					console.log(data);
 					//응답된 문자열은 html 형식이다 

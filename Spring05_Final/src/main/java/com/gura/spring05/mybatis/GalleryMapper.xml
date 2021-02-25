@@ -27,6 +27,7 @@
 				ORDER BY num DESC) result1) 
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
+	<!-- resultType이 int이기 때문에 nvl을 써서 null일 때  null대신 0이 들어가도록 한다. -->
 	<select id="getCount" resultType="int">
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM board_gallery

@@ -27,6 +27,7 @@ public class GalleryController {
 	public ModelAndView list(ModelAndView mView, HttpServletRequest request) {
 		service.getList(mView, request);
 		mView.setViewName("gallery/list");
+		//mView에는 list, totalPageCount, pageNum등의 정보가 들어있다.  
 		return mView;
 	}
 	
@@ -60,6 +61,8 @@ public class GalleryController {
 	@RequestMapping(value = "/gallery/private/ajax_upload", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxUpload(MultipartFile image, HttpServletRequest request){
+		//ajax_form에서 src= "${pageContext.request.contextPath}"+data.imagePath;으로 context path까지 포함시켜서 쓰고있기 때문에
+		//여기서 별도로 map에 imagePath를  request.getContextPath() 를 포함해서 return 시킬 필요는 없다.
 		//업로드된 이미지를 upload 폴더에 저장하고 경로를 리턴 받는다.
 		String imagePath=service.saveImage(image, request);
 		//저장된 경로를 JSON 문자열로 응답하기 위해 Map 에 담는다.
@@ -68,10 +71,11 @@ public class GalleryController {
 		//Map  을 리턴해서 JSON 문자열이 응답되도록 한다. {"imagePath":"/upload/xxx.jpg"} 형식
 		return map;
 	}
-	
+	 
 	//ajax업로드 (업로드하러가기2) 구현을 위한 코드 
 	@RequestMapping(value = "/gallery/private/insert", method=RequestMethod.POST)
 	public String insert(GalleryDto dto, HttpSession session) {
+		//dto에는 caption, imagePath정보가 들어있다. 
 		service.addContent(dto, session);
 		return "redirect:/gallery/list.do";
 	}

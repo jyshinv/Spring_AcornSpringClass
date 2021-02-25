@@ -85,7 +85,7 @@ public class GalleryServiceImpl implements GalleryService{
 		if(!upload.exists()) {//만일 디렉토리가 존재하지 않으면 
 			upload.mkdir(); //만들어 준다.
 		}
-		//저장할 파일 명을 구성한다.
+		//저장할 파일 명을 구성한다.(원본파일명에 타임밀리를 찍어서 더해줌으로써 겹치는 파일명이 없도록 한다.)
 		String saveFileName=
 				System.currentTimeMillis()+orgFileName;
 		try {
@@ -116,7 +116,7 @@ public class GalleryServiceImpl implements GalleryService{
 		if(!upload.exists()) {//만일 디렉토리가 존재하지 않으면 
 			upload.mkdir(); //만들어 준다.
 		}
-		//저장할 파일 명을 구성한다.
+		//저장할 파일 명을 구성한다.(원본파일명에 타임밀리를 찍어서 더해줌으로써 겹치는 파일명이 없도록 한다.)
 		String saveFileName=
 				System.currentTimeMillis()+orgFileName;
 		try {
