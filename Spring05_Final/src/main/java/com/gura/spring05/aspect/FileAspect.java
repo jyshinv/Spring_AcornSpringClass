@@ -50,7 +50,8 @@ public class FileAspect {
 			throw new NotAllowException("남의 파일을 지울 수 없습니다.");
 		}
 		
-		//위에서 exception을 던지면 아래 코드는 호출되지 않을 것이다. (--> 아래 코드는 service패키지 않에 모든 delete로 시작하는 메소드!!를 호출하는 것임)
+		//위에서 예외가 발생해 exception을 던지면 아래 코드는 호출되지 않을 것이다. (--> 아래 코드는 service패키지 안에 모든 delete로 시작하는 메소드!!를 호출하는 것임)
+		//위에서 예외가 발생하지 않아 exception를 던지지 않으면 아래 코드는 호출된다. (--> service패키지 안에 모든 delete로 시작하는 메소드를 호출하는 것이다!)
 		joinPoint.proceed();
 	}
 

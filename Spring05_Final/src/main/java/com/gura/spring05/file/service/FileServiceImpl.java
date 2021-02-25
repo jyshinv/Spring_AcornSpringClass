@@ -146,12 +146,17 @@ public class FileServiceImpl implements FileService{
 		mView.addObject("dto", dto);
 	}
 
+	//delete*로 시작하는 메소드 이므로 com.gura.spring05.aspect의 FileAspect클래스의
+	//횡단 관심사 코드로 넘어간다. 횡단 관심사 코드에서 예외처리가 발생되면 예외처리 하는 곳으로 이동하고
+	//결국 joinPoint.proceed()가 호출이 안되어 아래 deleteFile() 메소드 호출이 되지 않는다. 
+	//횡단관심사(남의 파일을 지웠을 때)코드가 잘 구현되는 지 보기위해 
+	//http://localhost:8888/spring05/file/private/delete.do?num=삭제할 파일 번호 이렇게 호출해보자.
 	@Override
 	public void deleteFile(int num, HttpServletRequest request) {
 		//삭제할 파일의 정보 얻어오기 
 		FileDto dto=fileDao.getData(num);
 		
-		//아래 코드는 핵심 비즈니스 로직은 아니므로 aspect에서 구현하였다. 
+		//아래 코드는 핵심 비즈니스 로직은 아니므로(횡단관심사 이므로) aspect에서 구현하였다. 
 //		//로그인 된 아이디 읽어오기
 //		String id=(String)request.getSession().getAttribute("id");
 //		//로그인 된 아이디와 글의 작성자가 다르면
@@ -160,8 +165,6 @@ public class FileServiceImpl implements FileService{
 //			throw new NotAllowException ("남의 파일은 삭제할 수 없습니다.");
 //		}
 		
-		//위의 코드가 잘 호출되는지 확인하기 위해
-		//http://localhost:8888/spring05/file/private/delete.do?num=삭제할 파일 번호 이렇게 호출해보자.
 		
 		//파일 시스템에서 파일 삭제
 		String saveFileName=dto.getSaveFileName();
