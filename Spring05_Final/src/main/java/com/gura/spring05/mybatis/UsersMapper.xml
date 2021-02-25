@@ -51,11 +51,16 @@
 	isValid의 경우 boolean을 리턴해야하지만 resultType으로 boolean은 쓸 수 없다. 
 	select 해서 아이디가 제대로 리턴되면 String값이 리턴되고 
 	select 해서 아무 아이디도 리턴되지 않으면 null이 리턴된다. 
-	따라서 resultType으로 String을 써주어야한다.
-	-->
+	따라서 resultType으로 String을 써주어야한다. 암호화 복호화를 배우고 나서 필요없어졌음!!
 	<select id="isValid" parameterType="usersDto" resultType="String">
 		SELECT id
 		FROM users
 		WHERE id=#{id} AND pwd=#{pwd}
+	</select>
+	-->
+	<select id="getPwd" parameterType="String" resultType="String">
+		SELECT pwd
+		FROM users
+		WHERE id=#{id }
 	</select>
 </mapper>

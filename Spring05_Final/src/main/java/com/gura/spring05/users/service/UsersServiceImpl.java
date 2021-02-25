@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +27,13 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public void addUser(UsersDto dto) {
-		// TODO Auto-generated method stub
+		//비밀번호를 암호화할 객체 생성
+		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+		//입력한 비밀번호를 암호화 한다.
+		String encodedPwd=encoder.encode(dto.getPwd());
+		//UsersDto에 다시 넣어준다.
+		dto.setPwd(encodedPwd);
+		
 		dao.insert(dto);
 	}
 
@@ -73,6 +81,67 @@ public class UsersServiceImpl implements UsersService {
 	
 	}
 
+	//암호화 복호화 배우기 전 loginlogic
+//	@Override
+//	public void loginLogic(HttpServletRequest request, HttpServletResponse response) {
+//		//login_form.jsp에서 url이라는 파라메터 명으로 url값을 얻어온다. 
+//		//로그인 후 가야하는 목적지 정보
+//		String url=request.getParameter("url");
+//		//로그인 실패를 대비해서 목적지 정보를 인코딩한 결과도 준비한다.
+//		String encodedUrl=URLEncoder.encode(url);
+//		
+//		
+//		//1.폼 전송되는 아이디와 비밀번호를 읽어온다.
+//		String id=request.getParameter("id");
+//		String pwd=request.getParameter("pwd");
+//		UsersDto dto=new UsersDto();
+//		dto.setId(id);
+//		dto.setPwd(pwd);
+//		
+//		//2.DB에 실제로 존재하는 (유효한) 정보인지 확인한다.
+//		boolean isValid=dao.isValid(dto);
+//		
+//		//3.유효한 정보이면 로그인 처리를 하고 응답 그렇지 않으면 아이디 혹은 비밀번호가 틀렸다고 응답
+//		if(isValid) {
+//			//login의 메소드로 HttpSession session을 설정해줘도 좋지만 request객체가 있기 때문에 이런식으로 로그인 처리를 해준다.
+//			//HttpSession객체를 이용해 로그인처리를 한다.
+//			request.getSession().setAttribute("id", id); 
+//			
+//		}
+//		
+//		//쿠키저장하기
+//		//체크를 하지 않았으면 null이다. 
+//		String isSave=request.getParameter("isSave");
+//		
+//		if(isSave == null){//체크 박스를 체크 안했다면
+//			//저장된 쿠키 삭제 
+//			Cookie idCook=new Cookie("savedId", id);
+//			idCook.setMaxAge(0);//삭제하기 위해 0 으로 설정 
+//			response.addCookie(idCook);
+//			
+//			Cookie pwdCook=new Cookie("savedPwd", pwd);
+//			pwdCook.setMaxAge(0);
+//			response.addCookie(pwdCook);
+//		}else{//체크 박스를 체크 했다면 
+//			//아이디와 비밀번호를 쿠키에 저장
+//			Cookie idCook=new Cookie("savedId", id);
+//			idCook.setMaxAge(60*60*24);//하루동안 유지 (하루는 24시간 한시간은 60분 1분은 60초!)
+//			response.addCookie(idCook);
+//			
+//			Cookie pwdCook=new Cookie("savedPwd", pwd);
+//			pwdCook.setMaxAge(60*60*24);
+//			response.addCookie(pwdCook);
+//		}
+//		//view page에서 필요한 데이터를 request에 담고 
+//		request.setAttribute("id", id);
+//		request.setAttribute("encodedUrl", encodedUrl);
+//		request.setAttribute("url", url);
+//		request.setAttribute("isValid", isValid);
+//		
+//		
+//	}
+	
+	//암호화 복호화 배우고 나서 login logic
 	@Override
 	public void loginLogic(HttpServletRequest request, HttpServletResponse response) {
 		//login_form.jsp에서 url이라는 파라메터 명으로 url값을 얻어온다. 
@@ -84,11 +153,19 @@ public class UsersServiceImpl implements UsersService {
 		//1.폼 전송되는 아이디와 비밀번호를 읽어온다.
 		String id=request.getParameter("id");
 		String pwd=request.getParameter("pwd");
-		UsersDto dto=new UsersDto();
-		dto.setId(id);
-		dto.setPwd(pwd);
-		//2.DB에 실제로 존재하는 (유효한) 정보인지 확인한다.
-		boolean isValid=dao.isValid(dto);
+		
+		//2.유효한 정보인지 여부를 담을 지역 변수를 만들고 초기값 false를 지정한다.
+		boolean isValid=false;
+		
+		//3.아이디를 이용해서 암호화 된 비밀번호를 SELECT 한다.
+		String savedPwd=dao.getPwd(id);
+		
+		//4.비밀번호가 만일 null 이 아니면(존재하는 아이디)
+		if(savedPwd != null) {
+			//5. 폼 전송되는 비밀번호와 일치하는지 확인한다.
+			isValid=BCrypt.checkpw(pwd, savedPwd);
+		}
+		
 		//3.유효한 정보이면 로그인 처리를 하고 응답 그렇지 않으면 아이디 혹은 비밀번호가 틀렸다고 응답
 		if(isValid) {
 			//login의 메소드로 HttpSession session을 설정해줘도 좋지만 request객체가 있기 때문에 이런식으로 로그인 처리를 해준다.
