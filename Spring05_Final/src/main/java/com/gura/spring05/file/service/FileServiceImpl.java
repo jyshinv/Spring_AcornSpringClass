@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.gura.spring05.exception.NotAllowException;
 import com.gura.spring05.file.dao.FileDao;
 import com.gura.spring05.file.dto.FileDto;
 
@@ -148,6 +150,19 @@ public class FileServiceImpl implements FileService{
 	public void deleteFile(int num, HttpServletRequest request) {
 		//삭제할 파일의 정보 얻어오기 
 		FileDto dto=fileDao.getData(num);
+		
+		//아래 코드는 핵심 비즈니스 로직은 아니므로 aspect에서 구현하였다. 
+//		//로그인 된 아이디 읽어오기
+//		String id=(String)request.getSession().getAttribute("id");
+//		//로그인 된 아이디와 글의 작성자가 다르면
+//		if(!id.equals(dto.getWriter())) {
+//			//예외 발생시키기 
+//			throw new NotAllowException ("남의 파일은 삭제할 수 없습니다.");
+//		}
+		
+		//위의 코드가 잘 호출되는지 확인하기 위해
+		//http://localhost:8888/spring05/file/private/delete.do?num=삭제할 파일 번호 이렇게 호출해보자.
+		
 		//파일 시스템에서 파일 삭제
 		String saveFileName=dto.getSaveFileName();
 		String path=request.getServletContext().getRealPath("/upload")+
