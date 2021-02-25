@@ -7,10 +7,19 @@
 		SET profile=#{profile}
 		WHERE id=#{id}
 	</update>
+	<!-- 
+	암호화 복호화 배우기 전 updatePwd문
 	<update id="updatePwd" parameterType="usersDto">
 		UPDATE users
 		SET pwd=#{newPwd}
 		WHERE id=#{id} AND pwd=#{pwd}
+	</update>
+	 -->
+	 <!-- 암호화 복호화 배우고 나서 updatePwd문 -->
+	<update id="updatePwd" parameterType="usersDto">
+		UPDATE users
+		SET pwd=#{newPwd}
+		WHERE id=#{id} 
 	</update>
 	<update id="update" parameterType="usersDto">
 		UPDATE users
@@ -57,7 +66,8 @@
 		FROM users
 		WHERE id=#{id} AND pwd=#{pwd}
 	</select>
-	-->
+	--> 
+	<!-- 암호화 복호화를 배우고 나서 쓰는 쿼리문 -->
 	<select id="getPwd" parameterType="String" resultType="String">
 		SELECT pwd
 		FROM users

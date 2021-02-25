@@ -42,8 +42,28 @@ public class UsersDaoImpl implements UsersDao {
 		}
 	}
 
+	//암호화 복호화 배우기 전 updatePwd 메소드 
+//	@Override
+//	public boolean updatePwd(UsersDto dto) {
+//		// TODO Auto-generated method stub
+//		/*
+//		mapper namespace => users
+//		sql id => updatePwd
+//		parameterType => UsersDto 
+//		 */
+//		//영향을 받은 row의 개수를 리턴해준다.
+//		// UsersMapper에서 sql id가 update인 곳의 resultType을 따로 적어주지 않아도 기본적으로 영향받은 row의 개수를 리턴해준다고 생각하자.
+//		int count=session.update("users.updatePwd",dto);
+//		//영향받은 row의 개수가 0개이면 비밀번호 변경 실패
+//		if(count==0) {
+//			return false;
+//		}else {//그렇지 않으면 성공
+//			return true;
+//		}
+//	}
+	//암호화 복호화 배운 후 updatePwd 메소드 
 	@Override
-	public boolean updatePwd(UsersDto dto) {
+	public void updatePwd(UsersDto dto) {
 		// TODO Auto-generated method stub
 		/*
 		mapper namespace => users
@@ -53,14 +73,14 @@ public class UsersDaoImpl implements UsersDao {
 		//영향을 받은 row의 개수를 리턴해준다.
 		// UsersMapper에서 sql id가 update인 곳의 resultType을 따로 적어주지 않아도 기본적으로 영향받은 row의 개수를 리턴해준다고 생각하자.
 		int count=session.update("users.updatePwd",dto);
-		//영향받은 row의 개수가 0개이면 비밀번호 변경 실패
-		if(count==0) {
-			return false;
-		}else {//그렇지 않으면 성공
-			return true;
-		}
+		//영향받은 row의 개수가 0개이면 비밀번호 변경 실패 --이 코드는 필요가 없다. serviceImpl에서 updatePwd()를 호출하기 전에 한번 확인을 해준다. 
+//		if(count==0) {
+//			return false;
+//		}else {//그렇지 않으면 성공
+//			return true;
+//		}
 	}
-
+	
 	@Override
 	public void update(UsersDto dto) {
 		// TODO Auto-generated method stub
